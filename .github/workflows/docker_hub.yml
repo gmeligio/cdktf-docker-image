@@ -33,5 +33,5 @@ jobs:
             os_version=${{ matrix.os }}
             build_system=github
             build_number=$GITHUB_RUN_NUMBER
-          push: false
+          push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-v${{ github.run_number }}
