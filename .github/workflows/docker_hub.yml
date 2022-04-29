@@ -34,4 +34,4 @@ jobs:
             build_system=github
             build_number=$GITHUB_RUN_NUMBER
           push: false
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-v${GITHUB_RUN_NUMBER}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-v${{ github.GITHUB_RUN_NUMBER }}
