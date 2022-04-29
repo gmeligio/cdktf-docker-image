@@ -7,18 +7,18 @@ jobs:
     strategy:
       matrix:
         cdktf: [0.10.3]
-        tf: [1.1.9]
+        tf: [1.1.9, 1.0.11]
         node: [16.15.0]
-        os: [alpine3.14, alpine3.15]
+        os: [alpine3.15]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
-      #     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Build
@@ -34,4 +34,4 @@ jobs:
             build_system=github
             build_number=$GITHUB_RUN_NUMBER
           push: false
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-v$GITHUB_RUN_NUMBER
