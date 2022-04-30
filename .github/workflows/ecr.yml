@@ -3,7 +3,7 @@ on:
     branches:
       - "main"
 jobs:
-  build_and_push_ecr:
+  build_push_ecr:
     strategy:
       matrix:
         cdktf: [0.10.3]
@@ -11,25 +11,39 @@ jobs:
         node: [16.15.0]
         os: [alpine3.15]
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-1
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - name: Login to ECR
-        uses: aws-actions/amazon-ecr-login@v1
-      - name: Build and push to ECR public
-        uses: pahud/ecr-public-action@0db8adbcfd3c3ec2f604d70fdd6b5d15c80e1dbc
-        env:
-          CDKTF_VERSION: ${{ matrix.cdktf }}
-          TF_VERSION: ${{ matrix.tf }}
-          NODE_VERSION: ${{ matrix.node }}
-          OS_VERSION: ${{ matrix.os }}
-          BUILD_NUMBER: ${{ github.run_number }}
-        # with:
-        #   context: .
-        #   create_repo: true
-        #   tags: |
-        #     public.ecr.aws/gmeligio/cdktf:${CDKTF_VERSION}-tf${TF_VERSION}-node${NODE_VERSION}-${OS_VERSION}-build${BUILD_NUMBER}
+          aws-region: $AWS_REGION
+      - name: Login to ECR Public
+        uses: docker/login-action@v1
+        with:
+          # needs AWS_REGION to be defined
+          registry: public.ecr.aws
+          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Create ECR repository
+        uses: int128/create-ecr-repository-action@v1
+        with:
+          public: true
+          repository: cdktf
+      - name: Build and push to ECR Public
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          build-args: |
+            cdktf_version=${{ matrix.cdktf }}
+            tf_version= ${{ matrix.tf }}
+            node_version=${{ matrix.node }}
+            os_version=${{ matrix.os }}
+            build_system=github
+            build_number=${{ github.run_number }}
+          # push: true
+          # tags: |
+          #   public.ecr.aws/gmeligio/cdktf:${CDKTF_VERSION}-tf${TF_VERSION}-node${NODE_VERSION}-${OS_VERSION}-build${BUILD_NUMBER}
