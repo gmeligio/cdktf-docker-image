@@ -65,6 +65,8 @@ jobs:
             build_number=${{ github.run_number }}
           push: true
           tags: |
-            gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
             ghcr.io/gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
-            public.ecr.aws/gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
+
+          # gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
+          # ghcr.io/gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
+          # public.ecr.aws/gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
