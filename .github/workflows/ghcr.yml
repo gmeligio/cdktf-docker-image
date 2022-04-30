@@ -29,7 +29,7 @@ jobs:
           file: ./Dockerfile
           build-args: |
             cdktf_version=${{ matrix.cdktf }}
-            tf_version= ${{ matrix.tf }}
+            tf_version=${{ matrix.tf }}
             node_version=${{ matrix.node }}
             os_version=${{ matrix.os }}
             build_system=github
