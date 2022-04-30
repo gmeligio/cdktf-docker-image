@@ -20,22 +20,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: ${{ env.AWS_REGION }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
-      # Required for using multiple registries
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v1
-
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
-      #     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
@@ -44,19 +40,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Login to ECR Public
-      #   uses: docker/login-action@v1
-      #   with:
-      #     # AWS_REGION needs to be defined in the parent scope
-      #     registry: public.ecr.aws
-      #     username: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Login to ECR Public
+        uses: docker/login-action@v1
+        with:
+          # AWS_REGION needs to be defined in the parent scope
+          registry: public.ecr.aws
+          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      # - name: Create ECR repository
-      #   uses: int128/create-ecr-repository-action@v1
-      #   with:
-      #     public: true
-      #     repository: cdktf
+      - name: Create ECR repository
+        uses: int128/create-ecr-repository-action@v1
+        with:
+          public: true
+          repository: cdktf
 
       - name: Build and push to Docker Hub, Github Container Registry, ECR Public
         uses: docker/build-push-action@v2
@@ -71,8 +67,6 @@ jobs:
             build_number=${{ github.run_number }}
           push: true
           tags: |
+            gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
             ghcr.io/gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
-
-          # gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
-          # ghcr.io/gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
-          # public.ecr.aws/gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
+            public.ecr.aws/gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}

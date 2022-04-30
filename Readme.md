@@ -4,10 +4,10 @@ The [CDKTF](https://github.com/hashicorp/terraform-cdk) allows you to use famili
 
 The CDKTF CLI depends on the [Terraform CLI](https://github.com/hashicorp/terraform) as the backend for all the resources operations like deploying or destroying.
 
-These are the exposed binaries:
+It exposes the folowwing binaries:
 
 - cdktf
-- tf
+- terraform
 
 ## Usage
 
