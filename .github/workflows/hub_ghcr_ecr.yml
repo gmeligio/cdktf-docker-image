@@ -4,6 +4,9 @@ on:
       - "main"
 jobs:
   build_push_hub_ghcr_ecr:
+    permissions:
+      packages: write
+      contents: read
     strategy:
       matrix:
         cdktf: [0.10.3]
