@@ -11,6 +11,20 @@ It exposes the following binaries:
 
 ## Usage
 
+- From Docker Hub
+
 ```bash
 docker pull gmeligio/cdktf:0.10.3-tf1.1.9-node16.15.0-alpine3.15
+```
+
+- From GitHub Container Registry
+
+```bash
+docker pull ghcr.io/gmeligio/cdktf:0.10.3-tf1.0.11-node16.15.0-alpine3.15
+```
+
+- From AWS ECR
+
+```bash
+docker pull public.ecr.aws/gmeligio/cdktf:0.10.3-tf1.0.11-node16.15.0-alpine3.15
 ```
