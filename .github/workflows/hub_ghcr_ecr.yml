@@ -40,19 +40,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Login to ECR Public
-      #   uses: docker/login-action@v1
-      #   with:
-      #     # AWS_REGION needs to be defined in the parent scope
-      #     registry: public.ecr.aws
-      #     username: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Login to ECR Public
+        uses: docker/login-action@v1
+        with:
+          # AWS_REGION needs to be defined in the parent scope
+          registry: public.ecr.aws
+          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      # - name: Create ECR repository
-      #   uses: int128/create-ecr-repository-action@v1
-      #   with:
-      #     public: true
-      #     repository: cdktf
+      - name: Create ECR repository
+        uses: int128/create-ecr-repository-action@v1
+        with:
+          public: true
+          repository: cdktf
 
       - name: Build and push to Docker Hub, Github Container Registry, ECR Public
         uses: docker/build-push-action@v2
@@ -67,6 +67,6 @@ jobs:
             build_number=${{ github.run_number }}
           push: true
           tags: |
-            gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
-            ghcr.io/gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
-          # public.ecr.aws/gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.run_number }}
+            gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.sha }}
+            ghcr.io/gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.sha }}
+            public.ecr.aws/gmeligio/cdktf:${{ matrix.cdktf }}-tf${{ matrix.tf }}-node${{ matrix.node }}-${{ matrix.os }}-build${{ github.sha }}
