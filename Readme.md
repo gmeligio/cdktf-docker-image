@@ -9,6 +9,13 @@ It exposes the following binaries:
 - cdktf
 - terraform
 
+# Terraform versions supported
+
+It supports the two latest minor versions of Terraform, currently:
+
+- Terraform v1.1.x
+- Terraform v1.2.x
+
 ## Usage
 
 - From Docker Hub

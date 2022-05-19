@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         cdktf: [0.10.4]
-        tf: [1.1.9, 1.0.11]
+        tf: [1.2.0, 1.1.9]
         node: [16.15.0]
         os: [alpine3.15]
     runs-on: ubuntu-latest
