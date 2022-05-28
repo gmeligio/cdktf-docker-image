@@ -1,3 +1,5 @@
+# docker build --build-arg tf_version=1.1.9 --build-arg node_version=16.15.0 --build-arg os_version=alpine3.15 --build-arg pkg_version=5.7.0 --build-arg cdktf_version=0.10.4 .
+
 ARG tf_version
 ARG node_version
 ARG os_version

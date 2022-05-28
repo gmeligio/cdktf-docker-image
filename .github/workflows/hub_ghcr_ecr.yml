@@ -9,8 +9,8 @@ jobs:
       contents: read
     strategy:
       matrix:
-        cdktf: [0.10.4]
-        tf: [1.2.0, 1.1.9]
+        cdktf: [0.11.0]
+        tf: [1.2.1, 1.1.9]
         node: [16.15.0]
         os: [alpine3.15]
     runs-on: ubuntu-latest
@@ -57,7 +57,7 @@ jobs:
       - name: Build and push to Docker Hub, Github Container Registry, ECR Public
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ./node
           build-args: |
             cdktf_version=${{ matrix.cdktf }}
             tf_version=${{ matrix.tf }}
