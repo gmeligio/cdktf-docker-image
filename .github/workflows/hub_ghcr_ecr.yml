@@ -14,8 +14,6 @@ jobs:
         node: [16.15.0]
         os: [alpine3.15]
     runs-on: ubuntu-latest
-    env:
-      AWS_REGION: us-east-1
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -41,12 +39,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Login to ECR Public
-        uses: docker/login-action@v1
+        uses: aws-actions/amazon-ecr-login@v1
         with:
-          # AWS_REGION needs to be defined in the parent scope
-          registry: public.ecr.aws
-          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          registry-type: 'public'
 
       - name: Create ECR repository
         uses: int128/create-ecr-repository-action@v1
