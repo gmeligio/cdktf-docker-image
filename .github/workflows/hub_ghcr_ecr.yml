@@ -14,6 +14,8 @@ jobs:
         node: [16.15.0]
         os: [alpine3.15]
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-1
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -23,6 +25,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # AWS_REGION needs to be defined in the parent scope
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Docker Hub
